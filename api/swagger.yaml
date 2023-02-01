@@ -1,0 +1,49 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: The Neuro-PetStore
+schemes: [http]
+host: the-neuro-pet-store.com
+basePath: /v1
+consumes: [application/json]
+produces: [application/json]
+paths:
+  /list:
+    get:
+      tags: [pets]
+      summary: 'Get list of currently available pets'
+      description: 'It returns a list of nested objects which contains all pets and their qualities'
+      operationId: PetsList
+      responses:
+        200:
+          description: 'List of Pets'
+          schema:
+            $ref: '#/definitions/Pets'
+        400:
+          description: Bad Request
+        404:
+          description: Pets Not Found
+        500:
+          schema:
+            type: string
+          description: Server Error
+definitions:
+  Pets:
+    type: array
+    items:
+      $ref: '#/definitions/Pet'
+  Pet:
+    type: object
+    properties:
+      Id:
+        type: integer
+      Name:
+        type: string
+      Species:
+        type: string
+      ImageUrl:
+        type: string
+      Qualities:
+        type: array
+        items:
+          type: string
