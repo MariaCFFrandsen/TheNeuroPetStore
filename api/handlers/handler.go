@@ -13,7 +13,7 @@ func NewPetsListHandler() pets.PetsListHandler {
 }
 
 func (impl *petsList) Handle(pets.PetsListParams) middleware.Responder {
-	responseVal := &models.Pets{
+	response := &models.Pets{
 		&models.Pet{
 			ID:       1,
 			ImageURL: "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -26,5 +26,5 @@ func (impl *petsList) Handle(pets.PetsListParams) middleware.Responder {
 			},
 		},
 	}
-	return pets.NewPetsListOK().WithPayload(*responseVal)
+	return pets.NewPetsListOK().WithPayload(*response)
 }

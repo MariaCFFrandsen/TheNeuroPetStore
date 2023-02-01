@@ -3,15 +3,18 @@ info:
   version: '1.0.0'
   title: The Neuro-PetStore
 schemes: [http]
-host: the-neuro-pet-store.com
+host: localhost:8081
 basePath: /v1
 consumes: [application/json]
 produces: [application/json]
+x-ibm-configuration:
+  cors:
+    enabled: false
 paths:
   /list:
     get:
       tags: [pets]
-      summary: 'Get list of currently available pets'
+      summary: 'Get list of all pets'
       description: 'It returns a list of nested objects which contains all pets and their qualities'
       operationId: PetsList
       responses:
