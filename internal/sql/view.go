@@ -34,7 +34,6 @@ func (view *View) GetPets(ctx context.Context) (models.Pets, error) {
 func ConvertToSwaggerModel(pets []generated.Pet) models.Pets {
 	var swaggerpets models.Pets
 	for _, pet := range pets {
-		fmt.Println(pet.ID)
 		swaggerpet := models.Pet{}
 		swaggerpet.ID = int64(pet.ID)
 		swaggerpet.Name = pet.Name
