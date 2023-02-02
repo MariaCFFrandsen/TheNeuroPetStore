@@ -3,7 +3,7 @@ info:
   version: '1.0.0'
   title: The Neuro-PetStore
 schemes: [http]
-host: localhost:8081
+host: the-neuro-pet-store.com
 basePath: /v1
 consumes: [application/json]
 produces: [application/json]
@@ -14,7 +14,7 @@ paths:
   /list:
     get:
       tags: [pets]
-      summary: 'Get list of all pets'
+      summary: 'Get list of currently available pets'
       description: 'It returns a list of nested objects which contains all pets and their qualities'
       operationId: PetsList
       responses:
@@ -22,6 +22,29 @@ paths:
           description: 'List of Pets'
           schema:
             $ref: '#/definitions/Pets'
+        400:
+          description: Bad Request
+        404:
+          description: Pets Not Found
+        500:
+          schema:
+            type: string
+          description: Server Error
+  /buyPet/{id}:
+    put:
+      tags: [pets]
+      summary: 'Buy pet and make unavailable'
+      description: 'It returns 200 status code when the pet has been unavailable'
+      operationId: buyPet
+      parameters:
+        - name: id
+          in: path
+          description: pet id
+          type: integer
+          required: true
+      responses:
+        200:
+          description: '200'
         400:
           description: Bad Request
         404:
@@ -40,12 +63,13 @@ definitions:
     properties:
       Id:
         type: integer
+      Available:
+        type: boolean
+        x-omitempty: false
       Name:
         type: string
       Species:
         type: string
-      Available:
-          type: boolean
       ImageUrl:
         type: string
       Qualities:

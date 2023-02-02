@@ -31,6 +31,10 @@ func (view *View) GetPets(ctx context.Context) (models.Pets, error) {
 	return result, err
 }
 
+func (view *View) BuyPet(ctx context.Context, id int32) error {
+	return view.queries.BuyPet(ctx, id)
+}
+
 func ConvertToSwaggerModel(pets []generated.Pet) models.Pets {
 	var swaggerpets models.Pets
 	for _, pet := range pets {

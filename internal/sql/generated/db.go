@@ -24,6 +24,9 @@ func New(db DBTX) *Queries {
 func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	q := Queries{db: db}
 	var err error
+	if q.buyPetStmt, err = db.PrepareContext(ctx, buyPet); err != nil {
+		return nil, fmt.Errorf("error preparing query BuyPet: %w", err)
+	}
 	if q.getPetsStmt, err = db.PrepareContext(ctx, getPets); err != nil {
 		return nil, fmt.Errorf("error preparing query GetPets: %w", err)
 	}
@@ -32,6 +35,11 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 
 func (q *Queries) Close() error {
 	var err error
+	if q.buyPetStmt != nil {
+		if cerr := q.buyPetStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing buyPetStmt: %w", cerr)
+		}
+	}
 	if q.getPetsStmt != nil {
 		if cerr := q.getPetsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getPetsStmt: %w", cerr)
@@ -76,6 +84,7 @@ func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, ar
 type Queries struct {
 	db          DBTX
 	tx          *sql.Tx
+	buyPetStmt  *sql.Stmt
 	getPetsStmt *sql.Stmt
 }
 
@@ -83,6 +92,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 	return &Queries{
 		db:          tx,
 		tx:          tx,
+		buyPetStmt:  q.buyPetStmt,
 		getPetsStmt: q.getPetsStmt,
 	}
 }

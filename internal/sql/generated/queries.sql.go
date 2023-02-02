@@ -9,6 +9,15 @@ import (
 	"context"
 )
 
+const buyPet = `-- name: BuyPet :exec
+UPDATE pets SET available = false WHERE id = $1
+`
+
+func (q *Queries) BuyPet(ctx context.Context, id int32) error {
+	_, err := q.exec(ctx, q.buyPetStmt, buyPet, id)
+	return err
+}
+
 const getPets = `-- name: GetPets :many
 SELECT
    id, name, species, imageurl, qualities, available

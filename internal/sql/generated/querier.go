@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	BuyPet(ctx context.Context, id int32) error
 	GetPets(ctx context.Context) ([]Pet, error)
 }
 
