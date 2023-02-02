@@ -16,7 +16,7 @@ You can start the server with the command with a specific port with:
 go run cmd/main.go --scheme http --port=8080
 ```
 
-You can start a postgres database with Docker with:
+You can start a postgres database with Docker:
 
 ```
 docker run --name postgres-db -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
